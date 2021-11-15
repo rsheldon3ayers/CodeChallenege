@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import AddPerson from './AddPerson';
+import Modal from './Modal';
+import useModal from '../hooks/useModal';
+import DeletePerson from './DeletePerson';
 
 export const ALL_PEOPLE_QUERY = gql`
   query ALL_PEOPLE_QUERY {
@@ -19,9 +22,16 @@ export const ALL_PEOPLE_QUERY = gql`
 
 function Page() {
   const { error, loading, data } = useQuery(ALL_PEOPLE_QUERY);
+  const { isShowing, toggle, id, setId, addPerson, setAdd, toggleAdd } =
+    useModal();
   if (loading) return 'Loading...';
   if (error) console.log(error);
-  console.log('PERSON======', data.people[1]._id);
+
+  function handleClick(personId, add) {
+    setId(personId);
+    setAdd(add);
+    toggle();
+  }
   return (
     <>
       <table>
@@ -41,12 +51,27 @@ function Page() {
             <td>{person.notes}</td>
 
             <td>
-              <a>✏️</a> 🗑
+              <button
+                id={person._id}
+                type="button"
+                onClick={() => handleClick(person._id, false)}
+              >
+                ✏️
+              </button>
+              <DeletePerson id={person._id} />
             </td>
           </tr>
         ))}
       </table>
-      <AddPerson />
+      <button type="button" onClick={() => handleClick(id, true)}>
+        Add Person
+      </button>
+      <Modal
+        id={id}
+        isShowing={isShowing}
+        hide={toggle}
+        addPerson={addPerson}
+      />
     </>
   );
 }

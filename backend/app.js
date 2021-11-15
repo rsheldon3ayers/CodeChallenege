@@ -42,9 +42,13 @@ app.use('/graphql', graphqlHTTP({
         }
         type RootQuery {
             people: [Person!]!
+            person(_id: ID!): Person!
         }
         type RootMutation {
-            addPerson(personInput: PersonInput): Person
+            addPerson(personInput: PersonInput): Person!
+            editPerson(_id: ID!, personInput: PersonInput): Person
+            deletePerson(_id: ID!): Person!
+
         }
         schema {
             query: RootQuery,
@@ -52,23 +56,32 @@ app.use('/graphql', graphqlHTTP({
         }
     `),
     rootValue: {
-        people: () => {
-            return Person.find().then(people => {
+        people: async () => {
+            try {
+                const people = await Person.find();
                 console.log(people);
                 return people.map(person => {
-                    return {...person._doc, _id: person.id}
-                })
-            }).catch(err => {
-                console.log(err)
+                    return { ...person._doc, _id: person.id };
+                });
+            } catch (err) {
+                console.log(err);
                 throw err;
-            })
+            }
+        },
+        person: async (id) => {
+            try {
+                const person = await Person.findById(id);
+                return person;
+            } catch (err) {
+                throw err;
+            }
         },
         addPerson: (args) => {
         
             const person = new Person({
                 first_name: args.personInput.first_name,
                 last_name: args.personInput.last_name,
-                dob: new Date(args.personInput.dob),
+                dob: args.personInput.dob,
                 phone_number: args.personInput.phone_number,
                 notes: args.personInput.notes
             });
@@ -80,6 +93,37 @@ app.use('/graphql', graphqlHTTP({
                 console.log(err);
                 throw err;
             });
+            
+        }, 
+        
+        editPerson: async (args) => {
+            console.log('ARGS=======', args._id);
+            try {
+                const res = await Person.findByIdAndUpdate(
+                    args._id,
+
+                    {
+                        first_name: args.personInput.first_name,
+                        last_name: args.personInput.last_name,
+                        dob: args.personInput.dob,
+                        phone_number: args.personInput.phone_number,
+                        notes: args.personInput.notes
+                    },
+                    { new: true }
+                );
+                console.log('res=========', res);
+                return res;
+            } catch (err) {
+                throw err;
+            }
+        },
+        deletePerson: async (id) => {
+            try {
+                const person = await Person.findByIdAndDelete(id);
+                return person;
+            } catch (err) {
+                throw err;
+            }
             
         }
     },

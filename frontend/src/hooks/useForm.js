@@ -1,27 +1,23 @@
 import { useEffect, useState } from 'react';
 
 export default function useForm(initial = {}) {
-  // creat a state object
+  // create a state object for our inputs
 
   const [inputs, setInputs] = useState(initial);
   const initialValues = Object.values(initial).join(' ');
   useEffect(() => {
-    // This functions run when the things we are watching change
+    // This function runs when the things we are watching change
     setInputs(initial);
   }, [initialValues]);
 
+  // used for onChange handler
   function handleChange(e) {
-    let { value, name, type } = e.target;
-    if (type === 'number') {
-      value = parseInt(value);
-    }
-    if (type === 'file') {
-      [value] = e.target.files;
-    }
+    const { value, name } = e.target;
 
     setInputs({
-      // copy existing data
+      // copy existing state object
       ...inputs,
+      // update the inputs with the value the user enters
       [name]: value,
     });
   }
