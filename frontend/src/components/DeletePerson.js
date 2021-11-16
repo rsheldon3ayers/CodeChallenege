@@ -20,13 +20,15 @@ export default function DeletePerson({ id }) {
       refetchQueries: [{ query: ALL_PEOPLE_QUERY }],
     }
   );
+  if (error) {
+    console.error();
+  }
   return (
     <button
       disabled={loading}
       type="button"
       onClick={() => {
         if (window.confirm('Are you sure you want to delete this item?')) {
-          console.log('Delete');
           deletePerson().catch((err) => alert(err.message));
         }
       }}

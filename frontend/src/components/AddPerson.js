@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
 import useForm from '../hooks/useForm';
 import { ALL_PEOPLE_QUERY } from './Page';
 
@@ -9,6 +10,7 @@ const ADD_NEW_PERSON_MUTATION = gql`
     $last_name: String!
     $dob: String!
     $phone_number: String!
+    $address: String!
     $notes: String
   ) {
     addPerson(
@@ -17,6 +19,7 @@ const ADD_NEW_PERSON_MUTATION = gql`
         last_name: $last_name
         dob: $dob
         phone_number: $phone_number
+        address: $address
         notes: $notes
       }
     ) {
@@ -26,10 +29,11 @@ const ADD_NEW_PERSON_MUTATION = gql`
     }
   }
 `;
-export default function AddPerson() {
+export default function AddPerson({ toggle }) {
   // I need a form in a modal that can add a new person to the data base
   // I need it to update the form on the main page.
-  const { inputs, handleChange, clearForm, resetForm } = useForm();
+  const { inputs, handleChange, clearForm } = useForm();
+
   const [addPerson, { loading, error, data }] = useMutation(
     ADD_NEW_PERSON_MUTATION,
     {
@@ -38,30 +42,40 @@ export default function AddPerson() {
     }
   );
 
+  if (error) {
+    console.error();
+  }
+
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        // Submit the inputfields to the backend:
+        // Submit the input fields to the backend:
         const res = await addPerson();
-        clearForm();
+        if (res) {
+          clearForm();
+        }
       }}
     >
       <fieldset disabled={loading} aria-busy={loading}>
+        <div className="form-header">
+          <h2>Complete the fields below</h2>
+          <p> *Optional</p>
+        </div>
         <label htmlFor="first_name">
-          First Name
           <input
             required
             type="first_name"
             id="first_name"
             name="first_name"
+            placeholder="First Name"
             value={inputs.first_name}
             onChange={handleChange}
           />
         </label>
         <label htmlFor="last_name">
-          Last Name
           <input
+            required
             type="text"
             id="last_name"
             name="last_name"
@@ -71,8 +85,8 @@ export default function AddPerson() {
           />
         </label>
         <label htmlFor="dob">
-          Birthday
           <input
+            required
             type="date"
             id="dob"
             name="dob"
@@ -82,8 +96,8 @@ export default function AddPerson() {
           />
         </label>
         <label htmlFor="phone_number">
-          Birthday
           <input
+            required
             type="text"
             id="phone_number"
             name="phone_number"
@@ -92,19 +106,36 @@ export default function AddPerson() {
             onChange={handleChange}
           />
         </label>
+        <label htmlFor="address">
+          <input
+            required
+            type="text"
+            id="address"
+            name="address"
+            placeholder="Address"
+            value={inputs.address}
+            onChange={handleChange}
+          />
+        </label>
         <label htmlFor="notes">
-          Notes
           <textarea
             id="notes"
             name="notes"
-            placeholder="notes"
+            placeholder="*Notes"
             value={inputs.notes}
             onChange={handleChange}
           />
         </label>
-
-        <button type="submit">+ Add Person</button>
+        <button onClick={toggle} type="button">
+          Cancel
+        </button>
+        <button onClick={toggle} disabled={loading} type="submit">
+          Add
+        </button>
       </fieldset>
     </form>
   );
 }
+AddPerson.propTypes = {
+  toggle: PropTypes.any,
+};

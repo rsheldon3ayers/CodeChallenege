@@ -31,6 +31,7 @@ app.use('/graphql', graphqlHTTP({
             last_name: String!
             dob: String!
             phone_number: String!
+            address: String!
             notes: String
         }
         input PersonInput {
@@ -38,6 +39,7 @@ app.use('/graphql', graphqlHTTP({
             last_name: String!
             dob: String!
             phone_number: String!
+            address: String!
             notes: String
         }
         type RootQuery {
@@ -59,7 +61,6 @@ app.use('/graphql', graphqlHTTP({
         people: async () => {
             try {
                 const people = await Person.find();
-                console.log(people);
                 return people.map(person => {
                     return { ...person._doc, _id: person.id };
                 });
@@ -83,6 +84,7 @@ app.use('/graphql', graphqlHTTP({
                 last_name: args.personInput.last_name,
                 dob: args.personInput.dob,
                 phone_number: args.personInput.phone_number,
+                address: args.personInput.address,
                 notes: args.personInput.notes
             });
 
@@ -97,7 +99,6 @@ app.use('/graphql', graphqlHTTP({
         }, 
         
         editPerson: async (args) => {
-            console.log('ARGS=======', args._id);
             try {
                 const res = await Person.findByIdAndUpdate(
                     args._id,
@@ -107,11 +108,11 @@ app.use('/graphql', graphqlHTTP({
                         last_name: args.personInput.last_name,
                         dob: args.personInput.dob,
                         phone_number: args.personInput.phone_number,
+                        address: args.personInput.address,
                         notes: args.personInput.notes
                     },
                     { new: true }
                 );
-                console.log('res=========', res);
                 return res;
             } catch (err) {
                 throw err;

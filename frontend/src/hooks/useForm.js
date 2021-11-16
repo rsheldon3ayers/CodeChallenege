@@ -13,7 +13,6 @@ export default function useForm(initial = {}) {
   // used for onChange handler
   function handleChange(e) {
     const { value, name } = e.target;
-
     setInputs({
       // copy existing state object
       ...inputs,

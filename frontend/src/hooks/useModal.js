@@ -16,5 +16,6 @@ export default function useModal() {
     setId,
     addPerson,
     setAdd,
+    setIsShowing,
   };
 }

@@ -4,18 +4,12 @@ import AddPerson from './AddPerson';
 import EditPerson from './EditPerson';
 
 const modalElement = document.getElementById('modal-root');
-export default function Modal({ isShowing, hide, id, addPerson }) {
+export default function Modal({ toggle, isShowing, hide, id, addPerson }) {
   if (isShowing) {
     return ReactDOM.createPortal(
       <>
         <div className="modal-overlay" />
-        <div
-          className="modal-wrapper"
-          aria-modal
-          aria-hidden
-          tabIndex={-1}
-          role="dialog"
-        >
+        <div className="modal-wrapper" aria-modal aria-hidden role="dialog">
           <div className="modal">
             <div className="modal-header">
               <button
@@ -28,7 +22,11 @@ export default function Modal({ isShowing, hide, id, addPerson }) {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            {addPerson ? <AddPerson /> : <EditPerson id={id} />}
+            {addPerson ? (
+              <AddPerson toggle={toggle} />
+            ) : (
+              <EditPerson toggle={toggle} id={id} />
+            )}
           </div>
         </div>
       </>,

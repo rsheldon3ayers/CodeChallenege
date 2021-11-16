@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import Form from 'react-bootstrap/Form';
 import useForm from '../hooks/useForm';
 import { ALL_PEOPLE_QUERY } from './Page';
 
@@ -13,6 +12,7 @@ const GET_PERSON_QUERY = gql`
       last_name
       dob
       phone_number
+      address
       notes
     }
   }
@@ -25,6 +25,7 @@ const EDIT_PERSON_MUTATION = gql`
     $last_name: String!
     $dob: String!
     $phone_number: String!
+    $address: String!
     $notes: String
   ) {
     editPerson(
@@ -34,6 +35,7 @@ const EDIT_PERSON_MUTATION = gql`
         last_name: $last_name
         dob: $dob
         phone_number: $phone_number
+        address: $address
         notes: $notes
       }
     ) {
@@ -41,43 +43,43 @@ const EDIT_PERSON_MUTATION = gql`
       last_name
       dob
       phone_number
+      address
       notes
     }
   }
 `;
 
-export default function EditPerson({ id }) {
+export default function EditPerson({ id, toggle }) {
   // query selected person
   const { data, error, loading } = useQuery(GET_PERSON_QUERY, {
     variables: { id },
   });
   const [editPerson, { loading: editLoading, err: editError, data: editData }] =
     useMutation(EDIT_PERSON_MUTATION);
-  const { inputs, handleChange, clearForm, resetForm } = useForm(data?.person);
+  const { inputs, handleChange } = useForm(data?.person);
   if (loading) return <p>Loading...!</p>;
-
+  if (error) console.error();
   return (
     <>
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          console.log('RES IN EDITPERSON');
-          const res = await editPerson({
+          await editPerson({
             variables: {
               id,
               first_name: inputs.first_name,
               last_name: inputs.last_name,
               dob: inputs.dob,
               phone_number: inputs.phone_number,
+              address: inputs.address,
               notes: inputs.notes,
             },
             refetchQueries: [{ query: ALL_PEOPLE_QUERY }],
           }).catch(console.error);
         }}
       >
-        <fieldset className="mb-3" disabled={loading} aria-busy={loading}>
+        <fieldset disabled={loading} aria-busy={loading}>
           <label htmlFor="first_name">
-            First Name
             <input
               required
               type="first_name"
@@ -88,7 +90,6 @@ export default function EditPerson({ id }) {
             />
           </label>
           <label htmlFor="last_name">
-            Last Name
             <input
               type="text"
               id="last_name"
@@ -99,18 +100,16 @@ export default function EditPerson({ id }) {
             />
           </label>
           <label htmlFor="dob">
-            Birthday
             <input
               type="date"
               id="dob"
               name="dob"
               placeholder="Birthday"
-              value={inputs.dob}
+              value={new Date(inputs.dob).toLocaleDateString().substr(0, 10)}
               onChange={handleChange}
             />
           </label>
           <label htmlFor="phone_number">
-            Birthday
             <input
               type="text"
               id="phone_number"
@@ -120,8 +119,18 @@ export default function EditPerson({ id }) {
               onChange={handleChange}
             />
           </label>
+          <label htmlFor="address">
+            <input
+              required
+              type="text"
+              id="address"
+              name="address"
+              placeholder="Address"
+              value={inputs.address}
+              onChange={handleChange}
+            />
+          </label>
           <label htmlFor="notes">
-            Notes
             <textarea
               id="notes"
               name="notes"
@@ -130,8 +139,12 @@ export default function EditPerson({ id }) {
               onChange={handleChange}
             />
           </label>
-
-          <button type="submit">Edit Person</button>
+          <button onClick={toggle} type="button">
+            Cancel
+          </button>
+          <button onClick={toggle} type="submit">
+            Edit Person
+          </button>
         </fieldset>
       </form>
     </>
@@ -140,4 +153,5 @@ export default function EditPerson({ id }) {
 
 EditPerson.propTypes = {
   id: PropTypes.any,
+  toggle: PropTypes.any,
 };

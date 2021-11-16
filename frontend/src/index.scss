@@ -1,83 +1,147 @@
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 80%;
-    margin: 0 auto;
-  }
-  
-  td, th {
-    border: 1px solid darken(#dddddd, 10%);
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 90%;
+  margin: 0 auto;
+}
 
-  .App {
-    text-align: center;
-    padding-top: 2rem;
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1040;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000;
-    opacity: .5;
-  }
-  
-  .modal-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1050;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    outline: 0;
-  }
-  
-  .modal {
-    z-index: 100;
-    background: white;
-    position: relative;
-    margin: 1.75rem auto;
-    border-radius: 3px;
-    max-width: 500px;
-    padding: 2rem;
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .modal-close-button {
-    font-size: 1.4rem;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    opacity: .3;
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  background-color: #fafafa;
+}
+td {
+  button {
+    background-color: transparent;
     cursor: pointer;
     border: none;
   }
+}
+
+.App {
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: .5;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.modal {
+  z-index: 100;
+  background: white;
+  position: relative;
+  margin: 1.75rem auto;
+  border-radius: 3px;
+  max-width: 500px;
   
-  button {
-    font-size: .9rem;
-    font-weight: 700;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-close-button {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+
+body,
+html,
+.container {
+  background-color: #f2f2f2;
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  margin: 0 auto;
+  width: 70%;
+  text-align: center;
+
+  .add-button {
+    background-color: #afafaf;
+    border-radius: 50%;
+    margin-top: 25px;
+    font-weight: 100;
+    font-size: 50px;
+    cursor: pointer;
     border: none;
-    border-radius: 3px;
-    padding: .3rem 1rem;
-    margin-left: .5rem;
+    padding: 0 14px;
   }
-  
-  .button-default {
-    background: #247BA0;
-    color: #fff;
+  .edit {
+    transform: rotate(90deg)
   }
+
+}
+
+form {
+  .form-header {
+    width: 73%;
+    margin: 0 auto -15px;
+    text-align: left;
+    p {
+      font-size: 15px;
+      color: #d7d7d7;
+    }
+  }
+  h2 {
+    text-align: left;
+    font-size: 20px;
+  }
+  label {
+    display: block;
+    margin: 20px 0 20px;
+    
+
+    input,
+    textarea {
+      display: block;
+      margin: 10px auto;
+      width: 73%;
+      height: 32px;
+      font-size: 17px;
+    }
+
+    textarea {
+      height: 100px;
+    }
+  }
+
+  fieldset {
+    border: 0;
+  }
+  text-align: center;
+  padding-bottom: 24px;
+}
