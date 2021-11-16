@@ -142,9 +142,7 @@ export default function EditPerson({ id, toggle }) {
           <button onClick={toggle} type="button">
             Cancel
           </button>
-          <button onClick={toggle} type="submit">
-            Edit Person
-          </button>
+          <button type="submit">Edit Person</button>
         </fieldset>
       </form>
     </>

@@ -129,7 +129,7 @@ export default function AddPerson({ toggle }) {
         <button onClick={toggle} type="button">
           Cancel
         </button>
-        <button onClick={toggle} disabled={loading} type="submit">
+        <button disabled={loading} type="submit">
           Add
         </button>
       </fieldset>
