@@ -1,8 +1,6 @@
 # Anchore Technical Assignment
 
-Take home code test.
-
-A crud app built with React hooks, and the GraphQL and Appollo client on the front end.  
+A crud app built with React hooks, GraphQL and Appollo client on the front end.  
 
 On the backend it's built with Node.js, GraphQL, Express.js, express-graphql, mongoose and MongoDB. 
 
