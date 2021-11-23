@@ -139,10 +139,13 @@ export default function EditPerson({ id, toggle }) {
               onChange={handleChange}
             />
           </label>
-          <button onClick={toggle} type="button">
-            Cancel
-          </button>
-          <button type="submit">Edit Person</button>
+
+          <div className="button-container">
+            <button onClick={toggle} type="button">
+              Cancel
+            </button>
+            <button type="submit">Edit Person</button>
+          </div>
         </fieldset>
       </form>
     </>

@@ -126,12 +126,14 @@ export default function AddPerson({ toggle }) {
             onChange={handleChange}
           />
         </label>
-        <button onClick={toggle} type="button">
-          Cancel
-        </button>
-        <button disabled={loading} type="submit">
-          Add
-        </button>
+        <div className="button-container">
+          <button onClick={toggle} type="button">
+            Cancel
+          </button>
+          <button disabled={loading} type="submit">
+            Add
+          </button>
+        </div>
       </fieldset>
     </form>
   );

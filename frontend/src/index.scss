@@ -144,4 +144,13 @@ form {
   }
   text-align: center;
   padding-bottom: 24px;
+
+  .button-container {
+    button {
+      width: 165px;
+      font-size: 20px;
+      margin: 0 20px;
+      cursor: pointer;
+    }
+  }
 }
