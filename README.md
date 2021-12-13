@@ -1,4 +1,4 @@
-# Anchore Technical Assignment
+# REACT Hooks CRUD app
 
 A CRUD app built with React hooks, GraphQL and Appollo client on the front end.  
 
