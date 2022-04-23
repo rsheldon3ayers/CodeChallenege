@@ -30,9 +30,7 @@ in the `backend` terminal.
 
 ## Notes
 
-I was unable to implement the validation checking on the form fields.  For now it's just using the native HTML validation.
-
-If I had more time I would have added more features such as:
+## TODO:
 
 - Check for duplicate entries.
 
